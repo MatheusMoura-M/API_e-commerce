@@ -23,8 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# dotenv.load_dotenv()
-SECRET_KEY = "django-insecure-sg$lwk^ss+n&la#f&3&koe&dc=r8=009slpf5_-(dtiv7@^h+i"
+dotenv.load_dotenv()
+...
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,9 +33,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-MY_APPS = []
+MY_APPS = ["users", "addresses", "carts", "orders", "products"]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -112,14 +113,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SIMPLE_JWT = {
-    # "ACCESS_TOKEN_LIFETIME": timedelta(hours=15),
-    # "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
 
 REST_FRAMEWORK = {
-    # "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    # "PAGE_SIZE": 2,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "PAGE_SIZE": 4,
 }
 
 # Internationalization
@@ -144,4 +145,4 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "users.User"
