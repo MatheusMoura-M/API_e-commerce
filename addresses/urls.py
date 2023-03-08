@@ -7,4 +7,3 @@ from django.urls import path
 #     path('address/<address_id>/',views.AddressDetailView.as_view())
 #     ]
 urlpatterns = []
-urlpatterns = []
