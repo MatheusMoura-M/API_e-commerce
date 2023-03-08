@@ -33,9 +33,18 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-MY_APPS = ["users", "addresses", "carts", "orders", "products"]
+MY_APPS = [
+    "users",
+    "addresses",
+    "carts",
+    "orders",
+    "products",
+]
 
-THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "drf_spectacular",
+]
 
 DJANGO_APPS = [
     "django.contrib.admin",
