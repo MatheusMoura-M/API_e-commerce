@@ -15,30 +15,30 @@ class Command(BaseCommand):
     def handle(self, *args: Any, **options: Any) -> Optional[str]:
         self.stdout.write(self.style.WARNING("seeding data... \n"))
 
-        # admin_data = {
-        #     "first_name": "Mariano",
-        #     "username": "marianodias",
-        #     "email": "marianodias@gmail.com",
-        #     "password": "123123",
-        #     "is_superuser": True,
-        # }
+        admin_data = {
+            "first_name": "Mariano",
+            "username": "marianodias",
+            "email": "marianodias@gmail.com",
+            "password": "123123",
+            "is_superuser": True,
+        }
 
-        # users1_data = {
-        #     "first_name": "Josival",
-        #     "username": "josival123",
-        #     "email": "josival123@gmail.com",
-        #     "password": "123123",
-        #     "is_seller": True,
-        # }
+        users1_data = {
+            "first_name": "Josival",
+            "username": "josival123",
+            "email": "josival123@gmail.com",
+            "password": "123123",
+            "is_seller": True,
+        }
 
-        # self.stdout.write(self.style.WARNING("creating users..."))
+        self.stdout.write(self.style.WARNING("creating users..."))
 
-        # users_data = [admin_data, users1_data]
-        # users_list = [User.objects.create_user(**user_data) for user_data in users_data]
+        users_data = [admin_data, users1_data]
+        users_list = [User.objects.create_user(**user_data) for user_data in users_data]
 
-        # self.stdout.write(
-        #     self.style.SUCCESS(f"Done! [{len(users_list)} users created.]")
-        # )
+        self.stdout.write(
+            self.style.SUCCESS(f"Done! [{len(users_list)} users created.]")
+        )
 
         self.stdout.write(self.style.WARNING("creating products... \n"))
 
@@ -47,8 +47,8 @@ class Command(BaseCommand):
             {"name": "Pão integral", "stock": 60, "category": "Alimentícios"},
         ]
         products_list = [Product(**product_data) for product_data in products_data]
-
         products_bulk = Product.objects.bulk_create(products_list)
+
         self.stdout.write(
             self.style.SUCCESS(f"Done! [{len(products_list)} products created.]")
         )
