@@ -1,15 +1,22 @@
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .serializers import CartSerializer
+from .models import Cart
+from utils.permissions import AdminPermissions
 
 
-class CartView(generics.ListCreateAPIView):
+class CartView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [...]
+    permission_classes = [AdminPermissions]
 
-    queryset = ...
-    serializer_class = ...
-    pagination_class = PageNumberPagination
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
 
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
+
+class CartDetailView(generics.RetrieveUpdateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = []
+
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer

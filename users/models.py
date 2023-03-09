@@ -13,5 +13,5 @@ class User(AbstractUser):
     email = models.EmailField(max_length=127, unique=True)
     is_seller = models.BooleanField(null=True, default=False)
 
-    # address = models.OneToOneField(Address, related_name="user", on_delete=models.CASCADE)
-    # cart = models.OneToOneField(Cart, related_name="user", on_delete=models.CASCADE)
+    address = models.OneToOneField(Address, related_name="user", on_delete=models.CASCADE)
+    cart = models.OneToOneField(Cart, related_name="user", on_delete=models.CASCADE)

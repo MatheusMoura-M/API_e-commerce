@@ -11,12 +11,11 @@ class UserView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = PageNumberPagination
 
     def get_permissions(self):
         if self.request.method == "POST":
             return [AllowAny()]
-        return [IsAdminUser()]
+        return [AllowAny()]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -25,14 +24,4 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    pagination_class = None
     lookup_url_kwarg = "user_id"
-
-    def perform_update(self, serializer):
-        import ipdb
-
-        ipdb.set_trace()
-        return super().perform_update(serializer)
-
-    def perform_destroy(self, instance):
-        return super().perform_destroy(instance)

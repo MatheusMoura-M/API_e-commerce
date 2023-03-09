@@ -15,25 +15,13 @@ class Command(BaseCommand):
         email = kwargs["email"] if kwargs["email"] else "admin@example.com"
         password = kwargs["password"] if kwargs["password"] else "admin1234"
 
-        userFound = User.objects.filter(username=username).exists()
-        if userFound:
+        username_exists = User.objects.filter(username=username).exists()
+        if username_exists:
             raise CommandError(f"Username `{username}` already taken.")
 
-        emailFound = User.objects.filter(email=email).exists()
-        if emailFound:
+        email_exists = User.objects.filter(email=email).exists()
+        if email_exists:
             raise CommandError(f"Email `{email}` already taken.")
-
-        # try:
-        #     User.objects.get(username=username)
-        #     raise CommandError(f"Username `{username}` already taken.")
-        # except User.DoesNotExist:
-        #     pass
-
-        # try:
-        #     User.objects.get(email=email)
-        #     raise CommandError(f"Email `{email}` already taken.")
-        # except User.DoesNotExist:
-        #     pass
 
         User.objects.create_superuser(username=username, email=email, password=password)
 
