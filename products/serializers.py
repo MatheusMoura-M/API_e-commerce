@@ -12,7 +12,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         if validated_data["stock"] == 0:
-            validated_data["isActive"] = False
+            validated_data["is_active"] = False
 
         return Product.objects.create(**validated_data)
 
@@ -21,11 +21,11 @@ class ProductSerializer(serializers.ModelSerializer):
             if key != "stock":
                 setattr(instance, key, value)
             elif value == 0:
-                instance.isActive = False
-                instance.stock = value
+                instance.is_active = False
+                setattr(instance, key, value)
             else:
-                instance.isActive = True
-                instance.stock = value
+                instance.is_active = True
+                setattr(instance, key, value)
 
         instance.save()
         return instance

@@ -26,9 +26,12 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = None
-    lookup_url_kwarg = "pk"
+    lookup_url_kwarg = "user_id"
 
     def perform_update(self, serializer):
+        import ipdb
+
+        ipdb.set_trace()
         return super().perform_update(serializer)
 
     def perform_destroy(self, instance):
