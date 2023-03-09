@@ -3,6 +3,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Product
 from .serializers import ProductSerializer
 from utils.permissions import AdminOrSellerPermissions
+from rest_framework.exceptions import NotFound
 
 
 class ProductView(generics.ListCreateAPIView):
@@ -37,3 +38,9 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_url_kwarg = "product_id"
+
+    def get_object(self):
+        try:
+            return Product.objects.get(pk=self.kwargs["product_id"])
+        except Product.DoesNotExist:
+            raise NotFound("Product not found.")
