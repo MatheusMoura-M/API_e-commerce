@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Product
 from .serializers import ProductSerializer
+from django.shortcuts import get_object_or_404
 
 
 class ProductView(generics.ListCreateAPIView):
@@ -27,5 +28,11 @@ class ProductView(generics.ListCreateAPIView):
 
         return super().get_queryset()
 
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
+
+class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    # permission_classes = [...]
+
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_url_kwarg = "product_id"
