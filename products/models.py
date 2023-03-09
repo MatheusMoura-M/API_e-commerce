@@ -10,4 +10,4 @@ class Product(models.Model):
     name = models.CharField(max_length=30)
     stock = models.PositiveIntegerField()
     category = models.CharField(max_length=30)
-    isActive = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
