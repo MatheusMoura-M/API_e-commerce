@@ -10,20 +10,12 @@ class AdminPermissions(permissions.BasePermission):
 
 class AdminOrClientPermissions(permissions.BasePermission):
     def has_permission(self, request: Request, view: View):
-        return (
-            request.user.is_authenticated
-            and not request.user.is_seller
-            or request.user.is_superuser
-        )
+        return request.user.is_authenticated and not request.user.is_seller or request.user.is_superuser
 
 
 class AdminOrSellerPermissions(permissions.BasePermission):
     def has_permission(self, request: Request, view: View):
-        return (
-            request.user.is_authenticated
-            and request.user.is_seller
-            or request.user.is_superuser
-        )
+        return request.user.is_authenticated and request.user.is_seller or request.user.is_superuser
 
 
 class ClientPermissions(permissions.BasePermission):
@@ -38,8 +30,4 @@ class SellerPermissions(permissions.BasePermission):
 
 class AdminOrOwnerPermissions(permissions.BasePermission):
     def has_object_permission(self, request: Request, view: View, user: User):
-        return (
-            request.user.is_authenticated
-            and request.user.is_superuser
-            or user.email == request.user.email
-        )
+        return request.user.is_authenticated and request.user.is_superuser or user.email == request.user.email

@@ -7,14 +7,8 @@ from .serializers import AddressSerializer
 
 
 class AddressView(generics.ListCreateAPIView):
-    # authentication_classes = []
-    # permission_classes = []
-
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
-
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
 
 
 class AddressDetailView(generics.RetrieveUpdateDestroyAPIView):

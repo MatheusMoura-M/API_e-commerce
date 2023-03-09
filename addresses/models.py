@@ -7,9 +7,10 @@ class Address(models.Model):
         ordering = ["id"]
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+
     street = models.CharField(max_length=50)
-    distric = models.CharField(max_length=50)
-    zipCode = models.IntegerField()
+    district = models.CharField(max_length=50)
+    zipCode = models.CharField(max_length=9)
     number = models.IntegerField()
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
