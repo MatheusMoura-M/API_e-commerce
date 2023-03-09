@@ -21,6 +21,6 @@ urlpatterns = [
     # path("api/", include("addresses.urls")),
     # path("api/", include("carts.urls")),
     # path("api/", include("orders.urls")),
-    # path("api/", include("products.urls")),
     path("api/", include("users.urls")),
+    path("api/", include("products.urls")),
 ]

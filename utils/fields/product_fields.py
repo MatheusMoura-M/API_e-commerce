@@ -4,7 +4,7 @@ class ProductFields:
         "name",
         "stock",
         "category",
-        "isActive",
+        "is_active",
     ]
     read_only_fields = ["id"]
     extra_kwargs = {}
