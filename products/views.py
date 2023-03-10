@@ -30,6 +30,9 @@ class ProductView(generics.ListCreateAPIView):
 
         return super().get_queryset()
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]

@@ -11,3 +11,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField()
     category = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
+
+    user = models.ForeignKey(
+        "users.User", on_delete=models.CASCADE, related_name="products"
+    )

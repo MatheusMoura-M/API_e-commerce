@@ -26,6 +26,6 @@ class Command(BaseCommand):
         if email_exists:
             raise CommandError(f"Email `{email}` already taken.")
 
-        User.objects.create_superuser(username=username, email=email, password=password, address=address)
+        User.objects.create_superuser(username=username, email=email, password=password)
 
         return f"Admin `{username}` successfully created!"
