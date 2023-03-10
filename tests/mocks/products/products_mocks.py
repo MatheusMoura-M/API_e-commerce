@@ -1,3 +1,6 @@
+import random
+
+
 class ProductMocks:
     product_1 = {"name": "Doritos", "stock": 45, "category": "Alimentícios"}
     product_2 = {"name": "Pão integral", "stock": 60, "category": "Alimentícios"}
@@ -5,7 +8,7 @@ class ProductMocks:
 
     product_fail = {}
 
-    random_products = [
+    random_p = [
         {"name": "Arroz branco", "stock": 10, "category": "Alimentícios"},
         {"name": "Feijão preto", "stock": 12, "category": "Alimentícios"},
         {"name": "Macarrão espaguete", "stock": 13, "category": "Alimentícios"},
@@ -46,3 +49,13 @@ class ProductMocks:
         {"name": "Jaqueta corta-vento de nylon", "stock": 11, "category": "Têxtil"},
         {"name": "Toalha de banho de algodão egípcio", "stock": 27, "category": "Têxtil"},
     ]
+
+    def generate_price(products_db):
+        products = []
+
+        for product in products_db:
+            product["price"] = round(random.uniform(1, 50), 2)
+            products.append(product)
+        return products
+
+    random_products = generate_price(random_p)
