@@ -4,10 +4,10 @@ from django.db import models
 
 class Order(models.Model):
     class StatusChoice(models.TextChoices):
-        PEDIDOREALIZADO = " PEDIDO REALIZADO"
-        EMANDAMENTO = "EM ANDAMENTO"
+        PEDIDO_REALIZADO = " PEDIDO REALIZADO"
+        EM_ANDAMENTO = "EM ANDAMENTO"
         ENTREGUE = "ENTREGUE"
-        
+
     class Meta:
         ordering = ["id"]
 
