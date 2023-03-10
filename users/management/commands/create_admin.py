@@ -2,6 +2,9 @@ from users.models import User
 from django.core.management.base import BaseCommand, CommandError
 
 
+address_mock = {}
+
+
 class Command(BaseCommand):
     help = "Create a new admin"
 
@@ -23,6 +26,6 @@ class Command(BaseCommand):
         if email_exists:
             raise CommandError(f"Email `{email}` already taken.")
 
-        User.objects.create_superuser(username=username, email=email, password=password)
+        User.objects.create_superuser(username=username, email=email, password=password, address=address)
 
         return f"Admin `{username}` successfully created!"

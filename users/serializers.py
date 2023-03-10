@@ -1,12 +1,9 @@
-from django.shortcuts import get_object_or_404
-from utils.fields.user_fields import UserFields as UF
+from .models import User
+from carts.models import Cart
 from rest_framework import serializers
 from addresses.models import Address
-from carts.models import Cart
-from .models import User
 from addresses.serializers import AddressSerializer
-from carts.serializers import CartSerializer
-import ipdb
+from utils.fields.user_fields import UserFields as UF
 
 
 class UserSerializer(serializers.ModelSerializer):
