@@ -7,8 +7,7 @@ class UserFields:
         "password",
         "is_superuser",
         "is_seller",
-        # "address",
-        # "cart",
+        "address",
     ]
     read_only_fields = ["id", "is_superuser"]
-    extra_kwargs = {"password": {"write_only": True}, "cart": {"write_only": True}}
+    extra_kwargs = {"password": {"write_only": True}}

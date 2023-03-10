@@ -4,9 +4,11 @@ from rest_framework import serializers
 
 
 class AddressSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Address
 
         fields = AddressFields.fields
         read_only_fields = AddressFields.read_only_fields
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
