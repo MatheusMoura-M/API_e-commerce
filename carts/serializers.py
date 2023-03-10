@@ -1,8 +1,7 @@
 from .models import Cart
 from rest_framework import serializers
-from utils.fields.cart_fields import CartField as CF
-from products.models import Product
-from rest_framework.exceptions import NotFound
+from utils.fields.cart_fields import CartFields as CF
+from utils.functions.products import get_products
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -16,17 +15,14 @@ class CartSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         products = validated_data.pop("products")
 
-        products_instances = []
+        cart = Cart.objects.get(id=instance.cart.id)
 
-        for product in products:
-            try:
-                prod = Product.objects.get(name_iexact=product.name)
-
-                products_instances.append(prod)
-
-            except Product.DoesNotExist:
-                raise NotFound("Product not found.")
-
-        instance.products.set(products_instances)
+        products_instances = get_products(products)
+        cart.products.set(products_instances)
         instance.save()
         return instance
+
+
+class CartProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        ordering = ["id"]
