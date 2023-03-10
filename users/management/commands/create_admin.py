@@ -1,8 +1,8 @@
 from users.models import User
 from django.core.management.base import BaseCommand, CommandError
-
-
-address_mock = {}
+from tests.mocks.addresses.addresses_mocks import AddressesMocks
+from addresses.models import Address
+from carts.models import Cart
 
 
 class Command(BaseCommand):
@@ -26,6 +26,11 @@ class Command(BaseCommand):
         if email_exists:
             raise CommandError(f"Email `{email}` already taken.")
 
-        User.objects.create_superuser(username=username, email=email, password=password)
+        address_admin = Address.objects.create(**AddressesMocks.address_1)
+        cart_admin = Cart.objects.create()
+
+        User.objects.create_superuser(
+            username=username, email=email, password=password, address=address_admin, cart=cart_admin
+        )
 
         return f"Admin `{username}` successfully created!"
