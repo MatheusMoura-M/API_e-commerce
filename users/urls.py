@@ -1,4 +1,5 @@
 from . import views
+from carts import views as views_cart
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 

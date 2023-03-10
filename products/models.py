@@ -7,11 +7,9 @@ class Product(models.Model):
         ordering = ["id"]
 
     id = models.UUIDField(default=uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=60)
     stock = models.PositiveIntegerField()
     category = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
 
-    user = models.ForeignKey(
-        "users.User", on_delete=models.CASCADE, related_name="products"
-    )
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="products")
