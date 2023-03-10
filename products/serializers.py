@@ -1,6 +1,6 @@
 from .models import Product
 from rest_framework import serializers
-from utils.fields.product_fields import ProductFields
+from utils.fields.product_fields import ProductFields, ProductOmitStockFields
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -29,3 +29,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class ProductOmitStockSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+
+        fields = ProductOmitStockFields.fields
+        read_only_fields = ProductOmitStockFields.read_only_fields

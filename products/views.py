@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Product
 from .serializers import ProductSerializer
-from utils.permissions import AdminOrSellerPermissions
+from utils.permissions import AdminOrSellerPermissions, AdminOrOwnerPermissions
 from rest_framework.exceptions import NotFound
 
 
@@ -36,7 +36,7 @@ class ProductView(generics.ListCreateAPIView):
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [AdminOrSellerPermissions]
+    permission_classes = [AdminOrOwnerPermissions]
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
