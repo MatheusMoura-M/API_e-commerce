@@ -181,9 +181,9 @@
 <strong>Essa rota necessita autenticação bearer token. Campos de envio para request:</strong>
 
 <ul>
-    <li><strong>name: </strong>Entrada obrigatória do tipo string e máximo 30 chars.</li>
+    <li><strong>name: </strong>Entrada obrigatória do tipo string e máximo 50 chars.</li>
     <li><strong>stock: </strong>Entrada obrigatória do tipo number.</li>
-    <li><strong>category: </strong>Entrada obrigatória do tipo string e máximo 30 chars.</li>
+    <li><strong>category: </strong>Entrada obrigatória do tipo string e máximo 50 chars.</li>
     <li><strong>is_active: </strong>Entrada opcional do tipo boolean.</li>
 </ul>
 
