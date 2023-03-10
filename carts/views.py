@@ -6,6 +6,7 @@ from .serializers import CartSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from utils.permissions import AdminPermissions, AdminOrClientPermissions
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView, Request, Response
 
 
 class CartView(generics.ListAPIView):
@@ -16,21 +17,21 @@ class CartView(generics.ListAPIView):
     serializer_class = CartSerializer
 
 
-class CartDetailView(generics.ListAPIView):
+class CartDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-
     serializer_class = CartSerializer
-    pagination_class = None
 
-    # TODO: create a retrieve for self.request.user
+    def get(self, request, *args, **kwargs):
+        cart = Cart.objects.get(user=self.request.user)
+        serializer = self.serializer_class(cart)
+        return Response(serializer.data)
 
-    def get_queryset(self):
-        # user = get_object_or_404(User, id=self.kwargs.get("pk"))
+    def patch(self, request, *args, **kwargs):
+        cart = Cart.objects.get(user=self.request.user)
 
-        return Cart.objects.filter(user=self.request.user)
+        serializer = self.serializer_class(cart, request.data, partial=True)
 
-    # def perform_update(self, serializer):
-    #     user = get_object_or_404(User, id=self.kwargs.get("pk"))
-
-    #     serializer.save(user=user)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)

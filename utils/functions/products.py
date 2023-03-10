@@ -7,9 +7,9 @@ def get_products(products_data):
 
     for product in products_data:
         try:
-            product_instance = Product.objects.get(name_iexact=product.name)
+            instance_product = Product.objects.get(name__iexact=product["name"])
 
-            products.append(product_instance)
+            products.append(instance_product)
         except Product.DoesNotExist:
             raise NotFound("Product not found.")
 
