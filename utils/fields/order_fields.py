@@ -1,4 +1,4 @@
 class OrderFields:
-    fields = ["id", "status", "user_id", "createAt"]
-    read_only_fields = ["id"]
+    fields = ["id", "status", "seller", "client", "created_at", "products"]
+    read_only_fields = ["id", "seller", "client", "products"]
     extra_kwargs = {}
