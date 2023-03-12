@@ -1,9 +1,9 @@
-from rest_framework import generics
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAdminUser
-
 from .models import Address
+from rest_framework import generics
 from .serializers import AddressSerializer
+from rest_framework.permissions import IsAdminUser
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 class AddressView(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]

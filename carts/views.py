@@ -1,8 +1,8 @@
 from .models import Cart
 from rest_framework import generics
 from .serializers import CartSerializer
-from rest_framework.views import Response
 from utils.permissions import AdminPermissions
+from rest_framework.views import Response, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -21,14 +21,18 @@ class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CartSerializer
 
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.get(user=self.request.user)
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
 
         serializer = self.serializer_class(cart)
 
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        cart = Cart.objects.get(user=self.request.user)
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
 
         serializer = self.serializer_class(cart, request.data, partial=True)
 
@@ -36,11 +40,12 @@ class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer.save()
 
         return Response(serializer.data)
-    
+
     def delete(self, request, *args, **kwargs):
-        cart = Cart.objects.get(user=self.request.user)
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
+
         cart.products.clear()
-        # serializer = self.serializer_class(cart)
-        # serializer.is_valid(raise_exception=True)
-        # serializer.save()
-        return Response(status=204)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)

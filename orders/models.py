@@ -3,9 +3,9 @@ from django.db import models
 
 
 class StatusChoice(models.TextChoices):
+    DEFAULT = "PEDIDO REALIZADO"
     EM_ANDAMENTO = "EM ANDAMENTO"
     ENTREGUE = "ENTREGUE"
-    DEFAULT = "PEDIDO REALIZADO"
 
 
 class Order(models.Model):

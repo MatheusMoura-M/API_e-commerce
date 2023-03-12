@@ -4,12 +4,6 @@ from utils.fields.product_fields import ProductFields, ProductOmitStockFields
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-
-        fields = ProductFields.fields
-        read_only_fields = ProductFields.read_only_fields
-
     def create(self, validated_data):
         if validated_data["stock"] == 0:
             validated_data["is_active"] = False
@@ -29,6 +23,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+    class Meta:
+        model = Product
+
+        fields = ProductFields.fields
+        read_only_fields = ProductFields.read_only_fields
 
 
 class ProductOmitStockSerializer(serializers.ModelSerializer):
