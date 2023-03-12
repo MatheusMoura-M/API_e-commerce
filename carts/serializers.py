@@ -1,19 +1,24 @@
 from .models import Cart
 from rest_framework import serializers
+from utils.fields.cart_fields import CartFields
 from utils.functions.products import get_products
-from utils.fields.cart_fields import CartFields as CF
 from products.serializers import ProductOmitStockSerializer
 
 
 class CartSerializer(serializers.ModelSerializer):
     products = ProductOmitStockSerializer(many=True)
+    total_amount = serializers.SerializerMethodField()
+    products_count = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Cart
+    def get_total_amount(self, obj: Cart):
+        prices = [float(products.price) for products in obj.products.all()]
 
-        fields = CF.fields
-        read_only_fields = CF.read_only_fields
-        extra_kwargs = CF.extra_kwargs
+        total_string_rounded = str(round(sum(prices), 2))
+
+        return total_string_rounded
+
+    def get_products_count(self, obj: Cart):
+        return len(obj.products.all())
 
     def update(self, instance: Cart, validated_data: dict):
         products = validated_data.pop("products")
@@ -24,6 +29,13 @@ class CartSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+    class Meta:
+        model = Cart
+
+        fields = CartFields.fields
+        read_only_fields = CartFields.read_only_fields
+        extra_kwargs = CartFields.extra_kwargs
 
 
 class CartProductSerializer(serializers.ModelSerializer):

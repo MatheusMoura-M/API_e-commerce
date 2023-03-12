@@ -2,19 +2,13 @@ from .models import User
 from carts.models import Cart
 from addresses.models import Address
 from rest_framework import serializers
-from addresses.serializers import AddressSerializer
-from utils.fields.user_fields import UserFields as UF, SellerFields as SF, ClientFields as CF
+from utils.fields.user_fields import UserFields, SellerFields, ClientFields
+from addresses.serializers import AddressSerializer, AddressWithoutIdSerializer
+from rest_framework.exceptions import PermissionDenied
 
 
 class UserSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
-
-    class Meta:
-        model = User
-
-        fields = UF.fields
-        read_only_fields = UF.read_only_fields
-        extra_kwargs = UF.extra_kwargs
 
     def create(self, validated_data: dict) -> User:
         address_data = validated_data.pop("address")
@@ -33,6 +27,15 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
     def update(self, instance: User, validated_data: dict) -> User:
+        if self.context["request"].user.is_superuser and instance.email != self.context["request"].user.email:
+            if "is_seller" in validated_data:
+                setattr(instance, "is_seller", validated_data["is_seller"])
+
+                instance.save()
+                return instance
+            else:
+                raise PermissionDenied("Cannot change user instance fields other than is_seller")
+
         if "address" in validated_data:
             address_data = validated_data["address"]
             address = Address.objects.get(id=instance.address.id)
@@ -52,22 +55,29 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    class Meta:
+        model = User
+
+        fields = UserFields.fields
+        read_only_fields = UserFields.read_only_fields
+        extra_kwargs = UserFields.extra_kwargs
+
 
 class SellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
 
-        fields = SF.fields
-        read_only_fields = SF.read_only_fields
-        extra_kwargs = SF.extra_kwargs
+        fields = SellerFields.fields
+        read_only_fields = SellerFields.read_only_fields
+        extra_kwargs = SellerFields.extra_kwargs
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    address = AddressSerializer(required=False)
+    address = AddressWithoutIdSerializer(required=False)
 
     class Meta:
         model = User
 
-        fields = CF.fields
-        read_only_fields = CF.read_only_fields
-        extra_kwargs = CF.extra_kwargs
+        fields = ClientFields.fields
+        read_only_fields = ClientFields.read_only_fields
+        extra_kwargs = ClientFields.extra_kwargs
