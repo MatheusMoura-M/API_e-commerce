@@ -21,7 +21,7 @@ class CartTest(APITestCase):
         msg = ""
         self.assertEqual(expected, result, msg)
 
-    def test_cart_update_without_product_not_found(self):
+    def test_cart_update_with_product_not_found(self):
         expected = ""
         result = ""
         msg = ""

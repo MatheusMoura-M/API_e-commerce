@@ -1,27 +1,34 @@
-from rest_framework import generics
-from rest_framework.pagination import PageNumberPagination
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from carts.models import Cart
-from users.models import User
 from .models import Order
-from rest_framework.permissions import IsAuthenticated
+from users.models import User
+from carts.models import Cart
+from rest_framework import generics
 from .serializers import OrderSerializer
-from django.shortcuts import get_object_or_404
+from rest_framework.views import Response
+from utils.functions.orders import get_orders
+from utils.permissions import AdminOrClientPermissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class OrderView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AdminOrClientPermissions]
 
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    # pagination_class = PageNumberPagination
-    cart_url_kwarg = "cart_id"
-
-    def get_queryset(self):
-        cart_id = self.kwargs["cart_id"]   
-
-        return Order.objects.filter(cart_id=cart_id)
 
     def perform_create(self, serializer):
-        return super().perform_create(serializer)
+        user = User.objects.get(email__iexact=self.request.user.email)
+        cart = Cart.objects.get(user=user)
+
+        products = cart.products.all()
+        orders = get_orders(products, user)
+
+        instances = []
+        for order in orders:
+            instance = serializer.save(client=order["client"], seller=order["seller"], products=order["products"])
+            instances.append(instance)
+
+        cart.products.clear()
+        cart.save()
+
+        return Response(instances)

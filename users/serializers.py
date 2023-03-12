@@ -1,9 +1,9 @@
 from .models import User
 from carts.models import Cart
-from rest_framework import serializers
 from addresses.models import Address
+from rest_framework import serializers
 from addresses.serializers import AddressSerializer
-from utils.fields.user_fields import UserFields as UF
+from utils.fields.user_fields import UserFields as UF, SellerFields as SF, ClientFields as CF
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -51,3 +51,23 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class SellerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+
+        fields = SF.fields
+        read_only_fields = SF.read_only_fields
+        extra_kwargs = SF.extra_kwargs
+
+
+class ClientSerializer(serializers.ModelSerializer):
+    address = AddressSerializer(required=False)
+
+    class Meta:
+        model = User
+
+        fields = CF.fields
+        read_only_fields = CF.read_only_fields
+        extra_kwargs = CF.extra_kwargs
