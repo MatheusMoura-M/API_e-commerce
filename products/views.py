@@ -1,9 +1,9 @@
-from rest_framework import generics
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Product
+from rest_framework import generics
 from .serializers import ProductSerializer
-from utils.permissions import AdminOrSellerPermissions, AdminOrOwnerPermissions
 from rest_framework.exceptions import NotFound
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from utils.permissions import AdminOrSellerPermissions, AdminOrOwnerPermissions
 
 
 class ProductView(generics.ListCreateAPIView):
@@ -18,9 +18,7 @@ class ProductView(generics.ListCreateAPIView):
         category_parameter = self.request.query_params.get("category")
 
         if name_parameter and category_parameter:
-            return Product.objects.filter(
-                name__icontains=name_parameter, category__icontains=category_parameter
-            )
+            return Product.objects.filter(name__icontains=name_parameter, category__icontains=category_parameter)
 
         if name_parameter:
             return Product.objects.filter(name__icontains=name_parameter)

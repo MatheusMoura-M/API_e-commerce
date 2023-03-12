@@ -31,3 +31,8 @@ class SellerPermissions(permissions.BasePermission):
 class AdminOrOwnerPermissions(permissions.BasePermission):
     def has_object_permission(self, request: Request, view: View, user: User):
         return request.user.is_authenticated and request.user.is_superuser or user.email == request.user.email
+
+
+class AdminOrProductOwnerPermissions(permissions.BasePermission):
+    def has_object_permission(self, request: Request, view: View, user: User):
+        return request.user.is_authenticated and request.user.is_superuser or user.email == request.user.email

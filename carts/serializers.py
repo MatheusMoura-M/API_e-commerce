@@ -1,7 +1,7 @@
 from .models import Cart
 from rest_framework import serializers
-from utils.fields.cart_fields import CartFields as CF
 from utils.functions.products import get_products
+from utils.fields.cart_fields import CartFields as CF
 from products.serializers import ProductOmitStockSerializer
 
 

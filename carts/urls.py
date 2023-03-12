@@ -1,10 +1,4 @@
 from . import views
 from django.urls import path
 
-
-# urlpatterns = [path(...), path(...)]
-urlpatterns = []
-
-urlpatterns = [
-    path("cart/", views.CartDetailView.as_view()),
-]
+urlpatterns = [path("carts/", views.CartView.as_view()), path("cart/", views.CartDetailView.as_view())]
