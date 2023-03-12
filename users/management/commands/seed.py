@@ -56,6 +56,8 @@ class Command(BaseCommand):
 
         sellers = User.objects.filter(is_seller=True)
 
+        products_data = ProductMocks.random_products
+
         products_list = [Product(**product_data, user=random.choice(sellers)) for product_data in products_data]
         Product.objects.bulk_create(products_list)
 
