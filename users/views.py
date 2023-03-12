@@ -1,10 +1,9 @@
 from .models import User
 from rest_framework import generics
 from .serializers import UserSerializer
-from utils.permissions import AdminOrOwnerPermissions
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from utils.permissions import AdminOrOwnerPermissions, AdminPermissions
 
 
 class UserView(generics.ListCreateAPIView):
@@ -15,7 +14,7 @@ class UserView(generics.ListCreateAPIView):
     def get_permissions(self):
         if self.request.method == "POST":
             return [AllowAny()]
-        return [AllowAny()]
+        return [AdminPermissions()]
 
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
