@@ -15,7 +15,7 @@ class CartView(generics.ListAPIView):
     serializer_class = CartSerializer
 
 
-class CartDetailView(generics.RetrieveUpdateAPIView):
+class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = CartSerializer
@@ -36,3 +36,11 @@ class CartDetailView(generics.RetrieveUpdateAPIView):
         serializer.save()
 
         return Response(serializer.data)
+    
+    def delete(self, request, *args, **kwargs):
+        cart = Cart.objects.get(user=self.request.user)
+        cart.products.clear()
+        # serializer = self.serializer_class(cart)
+        # serializer.is_valid(raise_exception=True)
+        # serializer.save()
+        return Response(status=204)
