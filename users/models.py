@@ -1,8 +1,8 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from addresses.models import Address
 from carts.models import Cart
+from addresses.models import Address
+from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):

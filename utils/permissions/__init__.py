@@ -1,4 +1,5 @@
 from users.models import User
+from orders.models import Order
 from rest_framework import permissions
 from rest_framework.views import Request, View
 
@@ -31,3 +32,17 @@ class SellerPermissions(permissions.BasePermission):
 class AdminOrOwnerPermissions(permissions.BasePermission):
     def has_object_permission(self, request: Request, view: View, user: User):
         return request.user.is_authenticated and request.user.is_superuser or user.email == request.user.email
+
+
+class AdminOrProductOwnerPermissions(permissions.BasePermission):
+    def has_object_permission(self, request: Request, view: View, order: Order):
+        return request.user.is_authenticated and request.user.is_superuser or order.seller.email == request.user.email
+
+
+class AdminOrUserOwnerOrProductOwnerPermissions(permissions.BasePermission):
+    def has_object_permission(self, request: Request, view: View, order: Order):
+        return (
+            request.user.is_authenticated
+            and request.user.is_superuser
+            or (order.seller.email == request.user.email or order.client.email == request.user.email)
+        )

@@ -1,12 +1,10 @@
-from django.shortcuts import get_object_or_404
 from .models import Cart
-from users.models import User
 from rest_framework import generics
 from .serializers import CartSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from utils.permissions import AdminPermissions, AdminOrClientPermissions
+from utils.permissions import AdminPermissions
+from rest_framework.views import Response, status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView, Request, Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class CartView(generics.ListAPIView):
@@ -17,21 +15,37 @@ class CartView(generics.ListAPIView):
     serializer_class = CartSerializer
 
 
-class CartDetailView(APIView):
+class CartDetailView(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = CartSerializer
 
     def get(self, request, *args, **kwargs):
-        cart = Cart.objects.get(user=self.request.user)
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
+
         serializer = self.serializer_class(cart)
+
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        cart = Cart.objects.get(user=self.request.user)
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
 
         serializer = self.serializer_class(cart, request.data, partial=True)
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+
+        cart = Cart.objects.get(user=user)
+
+        cart.products.clear()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
