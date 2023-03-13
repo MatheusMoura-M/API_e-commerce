@@ -1,15 +1,26 @@
+from .models import User
 from rest_framework import generics
-from rest_framework.pagination import PageNumberPagination
+from .serializers import UserSerializer
+from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from utils.permissions import AdminOrOwnerPermissions, AdminPermissions
 
 
 class UserView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [...]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    queryset = ...
-    serializer_class = ...
-    pagination_class = PageNumberPagination
+    def get_permissions(self):
+        if self.request.method == "POST":
+            return [AllowAny()]
+        return [AdminPermissions()]
 
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
+
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AdminOrOwnerPermissions]
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_url_kwarg = "user_id"

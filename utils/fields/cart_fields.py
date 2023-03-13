@@ -1,4 +1,4 @@
 class CartFields:
-    fields = ["id"]
+    fields = ["id", "updated_at", "total_amount", "products_count", "products"]
     read_only_fields = ["id"]
     extra_kwargs = {}
