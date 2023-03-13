@@ -23,11 +23,21 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.WARNING("creating users..."))
 
-        addresses_data = [AddressesMocks.address_1, AddressesMocks.address_2, AddressesMocks.address_3]
+        addresses_data = [
+            AddressesMocks.address_1,
+            AddressesMocks.address_2,
+            AddressesMocks.address_3,
+        ]
 
-        address_list = [Address.objects.create(**address_data) for address_data in addresses_data]
+        address_list = [
+            Address.objects.create(**address_data) for address_data in addresses_data
+        ]
 
-        users_data = [admin_mock.admin_data, seller_mock.seller_data, client_mock.client_data]
+        users_data = [
+            admin_mock.admin_data,
+            seller_mock.seller_data,
+            client_mock.client_data,
+        ]
 
         for i, _ in enumerate(users_data):
             users_data[i]["address"] = address_list[i]
@@ -35,15 +45,22 @@ class Command(BaseCommand):
 
         users_list = [User.objects.create_user(**user_data) for user_data in users_data]
 
-        self.stdout.write(self.style.SUCCESS(f"Done! [{len(users_list)} users created.]"))
+        self.stdout.write(
+            self.style.SUCCESS(f"Done! [{len(users_list)} users created.]")
+        )
 
         self.stdout.write(self.style.WARNING("creating products... \n"))
 
         sellers = User.objects.filter(is_seller=True)
 
-        products_data = ProductMocks.random_products1
+        products_data = ProductMocks.random_products
 
-        products_list = [Product(**product_data, user=random.choice(sellers)) for product_data in products_data]
+        products_list = [
+            Product(**product_data, user=random.choice(sellers))
+            for product_data in products_data
+        ]
         products_bulk = Product.objects.bulk_create(products_list)
 
-        self.stdout.write(self.style.SUCCESS(f"Done! [{len(products_list)} products created.]"))
+        self.stdout.write(
+            self.style.SUCCESS(f"Done! [{len(products_list)} products created.]")
+        )
