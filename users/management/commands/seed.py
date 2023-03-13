@@ -28,7 +28,12 @@ class Command(BaseCommand):
         self.stdout.write(self.style.WARNING("creating admins...\n"))
 
         call_command("create_admin")
-        call_command("create_admin", username="marianodias", password="123123", email="marianodias@gmail.com")
+        call_command(
+            "create_admin",
+            username="marianodias",
+            password="123123",
+            email="marianodias@gmail.com",
+        )
 
         self.stdout.write(self.style.SUCCESS(f"Done! [{2} admin created.] \n"))
 
@@ -50,7 +55,9 @@ class Command(BaseCommand):
 
         User.objects.bulk_create(users_list)
 
-        self.stdout.write(self.style.SUCCESS(f"Done! [{len(users_list)} users created.] \n "))
+        self.stdout.write(
+            self.style.SUCCESS(f"Done! [{len(users_list)} users created.] \n ")
+        )
 
         self.stdout.write(self.style.WARNING("creating products... \n"))
 
@@ -58,7 +65,12 @@ class Command(BaseCommand):
 
         products_data = ProductMocks.random_products
 
-        products_list = [Product(**product_data, user=random.choice(sellers)) for product_data in products_data]
+        products_list = [
+            Product(**product_data, user=random.choice(sellers))
+            for product_data in products_data
+        ]
         Product.objects.bulk_create(products_list)
 
-        self.stdout.write(self.style.SUCCESS(f"Done! [{len(products_list)} products created.]\n "))
+        self.stdout.write(
+            self.style.SUCCESS(f"Done! [{len(products_list)} products created.]")
+        )
