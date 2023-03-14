@@ -14,17 +14,18 @@ def get_orders(products: list, user: User) -> list:
         product.is_active = product.stock != 0
         product.save()
 
-        if len(orders):
-            for order in orders:
-                if product.user.id == order["seller"].id:
-                    order["products"].append(product)
+        var = False
+        for order in orders:
+            if product.user.id == order["seller"].id:
+                var = True
+                order["products"].append(product)
 
-                else:
-                    order_create = {"client": user, "seller": product.user, "products": [product]}
-                    orders.append(order_create)
-
-        else:
-            order_create = {"client": user, "seller": product.user, "products": [product]}
+        if not var:
+            order_create = {
+                "client": user,
+                "seller": product.user,
+                "products": [product],
+            }
             orders.append(order_create)
 
     return orders
@@ -34,7 +35,9 @@ def create_orders(orders: list):
     orders_return = []
 
     for order in orders:
-        instance_order = Order.objects.create(client=order["client"], seller=order["seller"])
+        instance_order = Order.objects.create(
+            client=order["client"], seller=order["seller"]
+        )
 
         instance_order.products.set(order["products"])
         instance_order.save()
