@@ -1,7 +1,7 @@
 <h1>Pf Python</h1>
 
 <h3><strong>Proposta:</strong></h3>
-<p>........</p>
+<p>Este projeto é um e-commerce desenvolvido com Django, um framework em Python, focado na construção do Back-end do sistema. O objetivo do projeto é oferecer um serviço seguro e confiável para a realização de compra e venda de produtos.</p>
 <hr noshade />
 
 <h2>[201] Criar usuários </h2>
@@ -298,6 +298,318 @@
 <pre>
 {
     "detail": "Product not found"
+}
+</pre>
+<hr noshade />
+
+
+
+<h2>[200] Preencher Carrrinho </h2>
+<h3>PATCH - /cart/</h3>
+
+<strong>Essa rota necessita autenticação bearer token.</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">200</strong> para preenchimento realizado com sucesso:</p>
+<pre>
+{
+	"id": "7ecbe7fc-9cd3-4bde-905d-9113a1b73e1f",
+	"updated_at": "2023-03-14T18:15:10.778943Z",
+	"total_amount": "25.12",
+	"products_count": 2,
+	"products": [
+		{
+			"id": "1c43bebc-b7dc-435b-b1f0-4d0d95e8583d",
+			"name": "Óleo de soja",
+			"category": "Alimentícios",
+			"price": "18.98"
+		},
+		{
+			"id": "288f9f94-af74-42a4-bf06-b99986101f87",
+			"name": "Sal refinado",
+			"category": "Alimentícios",
+			"price": "6.14"
+		},
+	]
+}
+
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
+}
+</pre>
+<hr noshade />
+
+
+<h2>[200] Buscar Carrrinho </h2>
+<h3>GET - /cart/</h3>
+
+<strong>Essa rota necessita autenticação bearer token.</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">200</strong> para busca realizada com sucesso:</p>
+<pre>
+{
+	"id": "7ecbe7fc-9cd3-4bde-905d-9113a1b73e1f",
+	"updated_at": "2023-03-14T18:15:10.778943Z",
+	"total_amount": "25.12",
+	"products_count": 2,
+	"products": [
+		{
+			"id": "1c43bebc-b7dc-435b-b1f0-4d0d95e8583d",
+			"name": "Óleo de soja",
+			"category": "Alimentícios",
+			"price": "18.98"
+		},
+		{
+			"id": "288f9f94-af74-42a4-bf06-b99986101f87",
+			"name": "Sal refinado",
+			"category": "Alimentícios",
+			"price": "6.14"
+		},
+	]
+}
+
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
+}
+</pre>
+<hr noshade />
+
+
+<h2>[204] Deletar Carrrinho </h2>
+<h3>DELETE - /cart/</h3>
+
+<strong>Essa rota necessita autenticação bearer token.</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">204</strong> com o retorno vazio</p>
+<pre>
+{}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
+}
+</pre>
+<hr noshade />
+
+
+
+<h2>[201] Criar Pedido </h2>
+<h3>POST - /orders/</h3>
+
+<strong>Essa rota necessita autenticação bearer token.</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">201</strong> para criação realizada com sucesso:</p>
+<pre>
+{
+"count": 1,
+"sellers": 1,
+"results": [
+	{
+           "id": "7c983256-ab9b-4c4a-a6b0-0812edb6894a",
+	   "status": "PEDIDO REALIZADO",
+           "created_at": "2023-03-14T18:29:10.548225Z",
+	   "products_count": 1,
+	   "products": [
+			{
+			   "id": "b2a77c04-a300-4680-9639-a1b5783858d0",
+			   "name": "Margarina",
+			   "category": "Alimentícios",
+			   "price": "6.33"
+			}
+		],
+		"seller": {
+			"id": "b0f0d911-8221-4781-be29-535cf0a13fe7",
+			"username": "phoebe92",
+			"first_name": "Sheila",
+			"email": "eddie_hebert@xanide.dog"
+		},
+		"client": {
+			"id": "c29822ae-e212-424b-acf2-26bb064475b6",
+			"username": "gustavo123",
+			"first_name": "Gustavo",
+			"email": "gustavo123@gmail.com",
+			"address": {
+				"street": "Reeve Place",
+				"district": "Walland",
+				"zipCode": "22514-281",
+				"state": "OH",
+				"city": "Falconaire",
+				"number": 12
+			}
+		}
+	},
+]
+}
+
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
+}
+</pre>
+<hr noshade />
+
+
+<h2>[200] Buscar Pedido </h2>
+<h3>GET - /orders/</h3>
+
+<strong>Essa rota necessita autenticação bearer token.</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">200</strong> para busca realizada com sucesso:</p>
+<pre>
+{
+"count": 1,
+"next": "http://127.0.0.1:8000/api/orders/?page=2",
+"previous": null,
+"results": [
+	{
+		"id": "7c983256-ab9b-4c4a-a6b0-0812edb6894a",
+		"status": "PEDIDO REALIZADO",
+		"created_at": "2023-03-14T18:29:10.548225Z",
+		"products_count": 1,
+		"products": [
+			{
+			     "id": "b2a77c04-a300-4680-9639-a1b5783858d0",
+			     "name": "Margarina",
+		             "category": "Alimentícios",
+			     "price": "6.33"
+			}
+		],
+		"seller": {
+			"id": "b0f0d911-8221-4781-be29-535cf0a13fe7",
+			"username": "phoebe92",
+			"first_name": "Sheila",
+			"email": "eddie_hebert@xanide.dog"
+		},
+		"client": {
+			"id": "c29822ae-e212-424b-acf2-26bb064475b6",
+			"username": "gustavo123",
+			"first_name": "Gustavo",
+			"email": "gustavo123@gmail.com",
+			"address": {
+				"street": "Reeve Place",
+				"district": "Walland",
+				"zipCode": "22514-281",
+				"state": "OH",
+				"city": "Falconaire",
+				"number": 12
+			}
+		}
+	}
+]
+}
+
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
+}
+</pre>
+<hr noshade />
+
+
+<h2>[200] Buscar Pedido por Id </h2>
+<h3>GET - /orders/:id/</h3>
+
+<strong>Essa rota necessita autenticação bearer token, é preciso enviar o id do pedido como parâmetro:</strong>
+
+<p>Retorno esperado com status code <strong style="color:LimeGreen;font-size:18px">200</strong> para busca realizada com sucesso:</p>
+<pre>
+{
+"id": "7c983256-ab9b-4c4a-a6b0-0812edb6894a",
+"status": "PEDIDO REALIZADO",
+"created_at": "2023-03-14T18:29:10.548225Z",
+"products_count": 1,
+"products": [
+		{
+		     "id": "b2a77c04-a300-4680-9639-a1b5783858d0",
+		     "name": "Margarina",
+		     "category": "Alimentícios",
+		     "price": "6.33"
+		}
+	],
+	"seller": {
+		"id": "b0f0d911-8221-4781-be29-535cf0a13fe7",
+		"username": "phoebe92",
+		"first_name": "Sheila",
+		"email": "eddie_hebert@xanide.dog"
+	},
+	"client": {
+		"id": "c29822ae-e212-424b-acf2-26bb064475b6",
+		"username": "gustavo123",
+		"first_name": "Gustavo",
+		"email": "gustavo123@gmail.com",
+		"address": {
+			"street": "Reeve Place",
+			"district": "Walland",
+			"zipCode": "22514-281",
+			"state": "OH",
+			"city": "Falconaire",
+			"number": 12
+		}
+	}
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">401</strong> para ausência de autenticação por token:</p>
+<pre>
+{
+	"detail": "Authentication credentials were not provided."
+}
+</pre>
+
+<p>Retorno esperado com status code <strong style="color:red;font-size:18px">403</strong> para usuário sem permissão de acesso:</p>
+<pre>
+{
+	"detail": "You do not have permission to perform this action."
 }
 </pre>
 <hr noshade />
