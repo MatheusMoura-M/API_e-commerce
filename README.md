@@ -1,4 +1,4 @@
-<h1>Pf Python</h1>
+<h1>Kenzie Commerce</h1>
 
 <h3><strong>Proposta:</strong></h3>
 <p>Este projeto é um e-commerce desenvolvido com Django, um framework em Python, focado na construção do Back-end do sistema. O objetivo do projeto é oferecer um serviço seguro e confiável para a realização de compra e venda de produtos.</p>
